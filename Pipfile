@@ -8,7 +8,7 @@ flake8 = "*"
 autopep8 = "*"
 
 [packages]
-requests = "==2.18.4"
+requests = "==2.20.0"
 flask = "==0.12.2"
 
 [requires]
