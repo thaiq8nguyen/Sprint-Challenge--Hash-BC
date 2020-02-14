@@ -26,11 +26,23 @@ def proof_of_work(last_proof):
     proof = 0
     #  TODO: Your code here
 
+    # print("last proof ", str(last_proof))
+
+    while not valid_proof(str(last_proof), str(proof)):
+        proof += 1
+
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
 
-def valid_proof(last_hash, proof):
+def hash(input_string):
+    raw_string = hashlib.sha256(input_string.encode())
+    hash_string = raw_string.hexdigest()
+
+    return hash_string
+
+
+def valid_proof(last_proof, proof):
     """
     Validates the Proof:  Multi-ouroborus:  Do the last six characters of
     the hash of the last proof match the first six characters of the hash
@@ -40,7 +52,14 @@ def valid_proof(last_hash, proof):
     """
 
     # TODO: Your code here!
-    pass
+
+    last_proof_hash = hash(last_proof)
+
+    proof_hash = hash(proof)
+
+    if last_proof_hash[-6:] == proof_hash[:6]:
+        return True
+    return False
 
 
 if __name__ == '__main__':
@@ -49,7 +68,8 @@ if __name__ == '__main__':
         node = sys.argv[1]
     else:
         node = "https://lambda-coin.herokuapp.com/api"
-
+    # production server -> https://lambda-coin.herokuapp.com/api
+    # test server -> https://lambda-coin-test-1.herokuapp.com/api
     coins_mined = 0
 
     # Load or create ID
